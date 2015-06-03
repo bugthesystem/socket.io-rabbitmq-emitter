@@ -1,0 +1,1 @@
+# socket.io-rabbitmq-emitter

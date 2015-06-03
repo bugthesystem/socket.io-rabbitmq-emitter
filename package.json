@@ -1,0 +1,38 @@
+{
+  "name": "socket.io-rabbitmq-emitter",
+  "version": "0.0.1",
+  "description": "socket.io emitter rabbitmq implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ziyasal/socket.io-rabbitmq-emitter.git"
+  },
+  "keywords": [
+    "socket.io",
+    "socket.io-rabbitmq",
+    "rabbitmq"
+  ],
+  "author": "ziyasal <sarikayaziya@gmail.com> (http://www.ziyasal.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ziyasal/socket.io-rabbitmq-emitter/issues"
+  },
+  "homepage": "https://github.com/ziyasal/socket.io-rabbitmq-emitter",
+  "dependencies": {
+    "debug": "^1.0.2",
+    "has-binary-data": "^0.1.3",
+    "msgpack-js": "^0.3.0",
+    "socket.io-parser": "^2.2.1",
+    "uid2": "0.0.3",
+    "amqplib": "^0.3.2"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "istanbul": "^0.2.11",
+    "mocha": "^1.20.1"
+  }
+}
