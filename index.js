@@ -117,7 +117,8 @@ Emitter.prototype.emit = function () {
         });
 
     } else {
-        this._channel.sendToQueue(this.key, data);
+        //this._channel.sendToQueue(this.key, data);
+        this._channel.publish("fanout", _that.key, data);
     }
 
     // reset state
