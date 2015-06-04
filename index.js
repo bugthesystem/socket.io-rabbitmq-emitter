@@ -31,9 +31,11 @@ function Emitter(opts) {
     opts.host = opts.host || '127.0.0.1';
     opts.key = opts.key || 'socket.io-rabbitmq';
 
+    this.url = opts.url ? opts.url : format('amqp://%s:%s', this.host, this.port);
+
     this.key = format('%s#emitter-%s', opts.key, uid2(6));
 
-    this.ch = null;
+    this._channel = null;
 
     this._rooms = {};
     this._flags = {};
@@ -85,9 +87,9 @@ Emitter.prototype.emit = function () {
     var data = Buffer.concat([key, payload]);
     debug('send data length: key = %d, payload = %d, data = %d', key.length, payload.length, data.length);
 
-    if (this.ch) {
-        var that = this;
-        amqp.connect(format('amqp://%s:%s', opts.host, opts.port), function (err, conn) {
+    if (this._channel === null) {
+        var _that = this;
+        amqp.connect(_that.url, function (err, conn) {
             if (err) {
                 console.error("[AMQP]", err.message);
                 //TODO: Try to start
@@ -104,20 +106,17 @@ Emitter.prototype.emit = function () {
                 return;
             });
 
-            conn.createChannel( function on_open(err, ch) {
+            conn.createChannel(function on_open(err, ch) {
                 if (err != null) bail(err);
 
-                that.ch= ch;
-                that.ch.assertQueue(this.key);
-                that.ch.sendToQueue(this.key,data);
+                _that._channel = ch;
+                _that._channel.assertQueue(_that.key);
+                _that._channel.sendToQueue(_that.key, data);
             });
-
-            that.__conn = conn;
-            that.__conn.sendToQueue(this.key, data);
         });
 
     } else {
-        this.__conn.sendToQueue(this.key, data);
+        this._channel.sendToQueue(this.key, data);
     }
 
     // reset state

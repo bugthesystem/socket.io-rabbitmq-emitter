@@ -20,24 +20,24 @@ function bail(err) {
 }
 
 var connection = null;
-var q = 'tasks';
 
 describe('socket.io-rabbitmq-emitter', function () {
     this.conn = null;
+    var url = process.env.RABBITMQ_URL ? process.env.RABBITMQ_URL : "amqp://192.168.59.103:5672";
 
+    before(function on_before(done) {
 
-    before(function (done) {
-        amqp.connect("amqp://guest:guest@192.168.59.103:5672", function (err, conn) {
+        amqp.connect(url, function connect(err, conn) {
                 if (err != null) bail(err);
-                connection = conn;
 
+                connection = conn;
                 done();
             }
         );
     });
 
 
-    after(function (done) {
+    after(function on_after(done) {
         if (connection)
             connection.close();
 
@@ -46,7 +46,7 @@ describe('socket.io-rabbitmq-emitter', function () {
 
     it('should be emit', function (done) {
 
-        var emitter = Emitter({host: '192.168.59.103'});
+        var emitter = Emitter({url: url});
 
         var args = ['hello', 'world'];
 
@@ -56,7 +56,7 @@ describe('socket.io-rabbitmq-emitter', function () {
                     if (err != null) bail(err);
                     ch.assertQueue(emitter.key);
                     ch.consume(emitter.key, function (msg) {
-
+                        msg = msg.content;
                         var getOffset = function (msg) {
                             var offset = 0;
                             for (var i = 0; i < msg.length; i++) {
@@ -73,7 +73,7 @@ describe('socket.io-rabbitmq-emitter', function () {
                         var key = msg.slice(0, offset);
                         var payload = msgpack.decode(msg.slice(offset + 1, msg.length));
                         var data = payload[0];
-                        expect(key).to.match(/^socket\.io\-zmq#emitter\-.*$/);
+                        expect(key).to.match(/^socket\.io\-rabbitmq#emitter\-.*$/);
                         expect(payload).to.be.an(Array);
                         expect(data.data[0]).to.contain('hello');
                         expect(data.data[1]).to.contain('world');
