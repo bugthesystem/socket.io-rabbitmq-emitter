@@ -1,5 +1,8 @@
 # socket.io-rabbitmq-emitter
 
+[![Build Status](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter.svg)](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter)
+
+
 socket.io emitter [rabbitmq](https://www.rabbitmq.com/) implementation.
 
 
