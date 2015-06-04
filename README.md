@@ -2,10 +2,9 @@
 
 [![Build Status](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter.svg)](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter)
 [![Coverage Status](https://coveralls.io/repos/ziyasal/socket.io-rabbitmq-emitter/badge.svg)](https://coveralls.io/r/ziyasal/socket.io-rabbitmq-emitter)
-[![Dependency Status](https://coveralls.io/repos/ziyasal/socket.io-rabbitmq-emitter/badge.svg)](https://david-dm.org/ziyasal/socket.io-rabbitmq-emitter)
+[![Dependency Status](https://david-dm.org/ziyasal/socket.io-rabbitmq-emitter.svg)](https://david-dm.org/ziyasal/socket.io-rabbitmq-emitter)
 
 socket.io emitter [rabbitmq](https://www.rabbitmq.com/) implementation.
-
 
 # Installing
 
