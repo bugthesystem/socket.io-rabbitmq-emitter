@@ -89,31 +89,13 @@ Emitter.prototype.emit = function () {
 
     if (this._channel === null) {
         var _that = this;
-        amqp.connect(_that.url, function (err, conn) {
-            if (err) {
-                console.error("[AMQP]", err.message);
-                //TODO: Try to start
-                return;
-            }
-            conn.on("error", function (err) {
-                if (err.message !== "Connection closing") {
-                    console.error("[AMQP] conn error", err.message);
-                }
-            });
-            conn.on("close", function () {
-                console.error("[AMQP] reconnecting");
-                //TODO: restart
-                return;
-            });
+         _connect(_that.url, function cb(err, ch) {
+            if (err) return console.error("[AMQP]", err.message);
 
-            conn.createChannel(function on_open(err, ch) {
-                if (err != null) bail(err);
-
-                _that._channel = ch;
-                _that._channel.assertQueue(_that.key);
-                //_that._channel.sendToQueue(_that.key, data);
-                _that._channel.publish("fanout", _that.key, data);
-            });
+            _that._channel = ch;
+            _that._channel.assertQueue(_that.key);
+            //_that._channel.sendToQueue(_that.key, data);
+            _that._channel.publish("fanout", _that.key, data);
         });
 
     } else {
@@ -127,3 +109,29 @@ Emitter.prototype.emit = function () {
 
     return this;
 };
+
+
+function _connect(url, cb) {
+    amqp.connect(url, function (err, conn) {
+        if (err) {
+            return console.error("[AMQP]", err.message);
+        }
+        conn.on("error", function (err) {
+            if (err.message !== "Connection closing") {
+                console.error("[AMQP] conn error", err.message);
+            }
+        });
+        conn.on("close", function () {
+            return console.error("[AMQP] reconnecting");
+        });
+
+        conn.createChannel(function on_open(err, ch) {
+            if (err != null) {
+                console.error("[AMQP] create channel error", err.message);
+                return cb(err);
+            }
+            
+            cb(null, ch);
+        });
+    });
+}
