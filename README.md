@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter.svg)](https://travis-ci.org/ziyasal/socket.io-rabbitmq-emitter)
 
+[![Coverage Status](https://coveralls.io/repos/ziyasal/socket.io-rabbitmq-emitter/badge.svg)](https://coveralls.io/r/ziyasal/socket.io-rabbitmq-emitter)
 
 socket.io emitter [rabbitmq](https://www.rabbitmq.com/) implementation.
 
