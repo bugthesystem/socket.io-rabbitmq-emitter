@@ -73,7 +73,7 @@ describe('socket.io-rabbitmq-emitter', function () {
                         var key = msg.slice(0, offset);
                         var payload = msgpack.decode(msg.slice(offset + 1, msg.length));
                         var data = payload[0];
-                        expect(key).to.match(/^socket\.io\-rabbitmq#emitter\-.*$/);
+                        expect(key).to.match(/^socket\.io\-rabbitmq#emitter/);
                         expect(payload).to.be.an(Array);
                         expect(data.data[0]).to.contain('hello');
                         expect(data.data[1]).to.contain('world');

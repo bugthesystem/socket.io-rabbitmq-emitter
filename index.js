@@ -33,7 +33,7 @@ function Emitter(opts) {
 
     this.url = opts.url ? opts.url : format('amqp://%s:%s', this.host, this.port);
 
-    this.key = format('%s#emitter-%s', opts.key, uid2(6));
+    this.key = format('%s#emitter', opts.key);
 
     this._channel = null;
 
@@ -111,7 +111,8 @@ Emitter.prototype.emit = function () {
 
                 _that._channel = ch;
                 _that._channel.assertQueue(_that.key);
-                _that._channel.sendToQueue(_that.key, data);
+                //_that._channel.sendToQueue(_that.key, data);
+                _that._channel.publish("fanout", _that.key, data);
             });
         });
 
