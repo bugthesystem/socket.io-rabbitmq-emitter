@@ -4,6 +4,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/ziyasal/socket.io-rabbitmq-emitter/badge.svg)](https://coveralls.io/r/ziyasal/socket.io-rabbitmq-emitter)
 
+[!(https://coveralls.io/repos/ziyasal/socket.io-rabbitmq-emitter/badge.svg)]
+
 socket.io emitter [rabbitmq](https://www.rabbitmq.com/) implementation.
 
 
