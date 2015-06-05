@@ -89,18 +89,18 @@ Emitter.prototype.emit = function () {
 
     if (this._channel === null) {
         var _that = this;
-         _connect(_that.url, function cb(err, ch) {
+        _connect(_that.url, function cb(err, ch) {
             if (err) return console.error("[AMQP]", err.message);
 
             _that._channel = ch;
             _that._channel.assertQueue(_that.key);
-            //_that._channel.sendToQueue(_that.key, data);
-            _that._channel.publish("fanout", _that.key, data);
+            _that._channel.sendToQueue(_that.key, data);
+            //_that._channel.publish("fanout", _that.key, data);
         });
 
     } else {
-        //this._channel.sendToQueue(this.key, data);
-        this._channel.publish("fanout", _that.key, data);
+        this._channel.sendToQueue(this.key, data);
+        //this._channel.publish("fanout", _that.key, data);
     }
 
     // reset state
@@ -130,7 +130,7 @@ function _connect(url, cb) {
                 console.error("[AMQP] create channel error", err.message);
                 return cb(err);
             }
-            
+
             cb(null, ch);
         });
     });
