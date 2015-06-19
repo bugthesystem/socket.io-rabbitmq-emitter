@@ -93,22 +93,23 @@ Emitter.prototype.emit = function () {
         var _that = this;
 
         // Create the rabbit connection
-        amqp.connect(_that.url).then(function (conn) {
-            _that._rabbitConn = conn;
-            // Create the rabbit channel
-            return _that._rabbitConn.createChannel();
-        }).then(function (ch) {
-            _that._channel = ch;
-            // Create the exchange (or do nothing if it exists)
-            return _that._channel.assertExchange(_that._exchange, 'topic', {durable: false});
-        }).then(function () {
+        amqp.connect(_that.url)
+            .then(function (conn) {
+                _that._rabbitConn = conn;
+                // Create the rabbit channel
+                return _that._rabbitConn.createChannel();
+            }).then(function (ch) {
+                _that._channel = ch;
+                // Create the exchange (or do nothing if it exists)
+                return _that._channel.assertExchange(_that._exchange, 'topic', {durable: false});
+            }).then(function () {
 
-            _that._channel.publish(_that._exchange, _that.key, data);
+                _that._channel.publish(_that._exchange, _that.key, data);
 
-        }).catch(function (err) {
-            return console.error("[AMQP]", err.message);
-            //TODO: process.exit(1) //??
-        });
+            }).catch(function (err) {
+                return console.error("[AMQP]", err.message);
+                //TODO: process.exit(1) //??
+            });
 
     } else {
         this._channel.publish(this._exchange, this.key, data);
